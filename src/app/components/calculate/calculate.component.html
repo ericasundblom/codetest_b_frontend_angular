@@ -1,0 +1,49 @@
+<h2>Codetest calculator</h2>
+
+<div *ngIf="isCalculatedFailed; else calculateForm">
+  Uups! Something went wrong. <br/>{{errorMessage}}<br/>
+</div>
+
+<ng-template #calculateForm>
+  <div style="max-width:350px;">
+    <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <div>
+        <label for="name">Your name</label>
+        <input type="text" name="name" [(ngModel)]="form.name" #name="ngModel" required />
+        <div *ngIf="f.submitted && name.invalid">
+          <div *ngIf="name.errors.required">Name is required</div>
+        </div>
+      </div>
+      <div>
+        <label for="totalLoan">Total loan</label>
+        <input type="number" name="totalLoan" [(ngModel)]="form.totalLoan" #totalLoan="ngModel"
+          required min="1"/>
+        <div *ngIf="f.submitted && totalLoan.invalid">
+          <div *ngIf="totalLoan.errors.required">Total loan amount is required</div>
+        </div>
+      </div>
+      <div>
+        <label for="interest">Interest (2% = 2)</label>
+        <input type="number" name="interest" [(ngModel)]="form.interest" #interest="ngModel"
+          required min="1"/>
+        <div *ngIf="f.submitted && interest.invalid">
+          <div *ngIf="interest.errors.required">Interest is required</div>
+        </div>
+      </div>
+      <div>
+        <label for="years">Years to pay</label>
+        <input type="number" name="years" [(ngModel)]="form.years" #years="ngModel"
+          required min="1"/>
+        <div *ngIf="f.submitted && years.invalid">
+          <div *ngIf="years.errors.required">Years are required</div>
+        </div>
+      </div>
+      <div>
+        <button>Calculate</button>
+        <div *ngIf="f.submitted && !isCalculatedFailed">
+          <h4 name="result">Calculated monthly payment approximately {{result}} €</h4>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
